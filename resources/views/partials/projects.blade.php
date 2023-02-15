@@ -14,7 +14,6 @@
         aria-labelledby="{{ $key }}-tab" tabindex="0">
         <div class="row mt-4">
             @foreach ($funnel->steps as $step)
-            <script>console.log({!! $step !!})</script>
             <div class="col">
                 <div class="card" style="background: {{ $step->state->color }};">
                     <div class="card-header" style="background: {{ $step->state->color }}; color: #ffffff">
