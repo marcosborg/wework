@@ -36,6 +36,11 @@ class Item extends Model
         return $this->hasMany(Input::class, 'item_id', 'id');
     }
 
+    public function lastInput()
+    {
+        return $this->hasMany(Input::class, 'item_id', 'id')->orderBy('id', 'desc')->limit(1);
+    }
+
     public function step()
     {
         return $this->belongsTo(Step::class, 'step_id');

@@ -62,8 +62,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('inputs', 'InputController');
 
     // Project
-    Route::delete('projects/destroy', 'ProjectController@massDestroy')->name('projects.massDestroy');
-    Route::resource('projects', 'ProjectController');
+    Route::get('projects/{category_id?}', 'ProjectController@index')->name('projects.index');
+    Route::get('projectsAjax/{category_id?}', 'ProjectController@ajax');
+    Route::post('projectsUpdate', 'ProjectController@projectsUpdate');
+
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
     // Change password

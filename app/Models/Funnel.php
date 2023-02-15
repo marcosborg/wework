@@ -38,4 +38,9 @@ class Funnel extends Model
     {
         return $date->format('Y-m-d H:i:s');
     }
+
+    public function steps()
+    {
+        return $this->hasMany(Step::class);
+    }
 }

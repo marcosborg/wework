@@ -3,70 +3,79 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\MassDestroyProjectRequest;
-use App\Http\Requests\StoreProjectRequest;
-use App\Http\Requests\UpdateProjectRequest;
+use App\Models\Category;
+use App\Models\Item;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProjectController extends Controller
 {
-    public function index()
+    public function index($category_id = null)
     {
+
         abort_if(Gate::denies('project_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.projects.index');
+        $user = auth()->user()->with([
+            'company.funnels.category'
+        ])->first();
+
+        $categories = collect();
+
+        foreach ($user->company->funnels as $funnel) {
+            $categories->add($funnel->category);
+        }
+
+        $categories = $categories->unique('id');
+
+        return view('admin.projects.index')->with([
+            'categories' => $categories,
+            'category_id' => $category_id,
+        ]);
     }
 
-    public function create()
+    public function ajax($category_id = null)
     {
-        abort_if(Gate::denies('project_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.projects.create');
+        $user = auth()->user()->with([
+            'company.funnels.category'
+        ])->first();
+
+        $categories = collect();
+
+        foreach ($user->company->funnels as $funnel) {
+            $categories->add($funnel->category);
+        }
+
+        $categories = $categories->unique('id');
+
+        $category_id = $category_id ? $category_id : $categories[0]->id;
+
+        $category = Category::where([
+            'id' => $category_id,
+        ])
+            ->with([
+                'funnels.steps.stepItems.client',
+                'funnels.steps.stepItems.lastInput',
+                'funnels.steps.state'
+            ])
+            ->whereHas('funnels.steps.stepItems', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->first();
+
+        return view('partials.projects')->with([
+            'category' => $category
+        ]);
     }
 
-    public function store(StoreProjectRequest $request)
+    public function projectsUpdate(Request $request)
     {
-        $project = Project::create($request->all());
+        $item = Item::find($request->item_id);
+        $item->step_id = $request->step_id;
+        $item->save();
 
-        return redirect()->route('admin.projects.index');
+        return $item;
     }
 
-    public function edit(Project $project)
-    {
-        abort_if(Gate::denies('project_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return view('admin.projects.edit', compact('project'));
-    }
-
-    public function update(UpdateProjectRequest $request, Project $project)
-    {
-        $project->update($request->all());
-
-        return redirect()->route('admin.projects.index');
-    }
-
-    public function show(Project $project)
-    {
-        abort_if(Gate::denies('project_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return view('admin.projects.show', compact('project'));
-    }
-
-    public function destroy(Project $project)
-    {
-        abort_if(Gate::denies('project_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $project->delete();
-
-        return back();
-    }
-
-    public function massDestroy(MassDestroyProjectRequest $request)
-    {
-        Project::whereIn('id', request('ids'))->delete();
-
-        return response(null, Response::HTTP_NO_CONTENT);
-    }
 }
