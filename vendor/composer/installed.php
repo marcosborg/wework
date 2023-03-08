@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'b9bf306102aa588d67b9f503f5f4c545b0bb5462',
+    'reference' => 'e8699602eee8bd1f7ab55477def998f0bef5fba6',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -418,6 +418,15 @@
         0 => 'v9.52.0',
       ),
     ),
+    'intervention/image' => 
+    array (
+      'pretty_version' => '2.7.2',
+      'version' => '2.7.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '04be355f8d6734c826045d02a1079ad658322dad',
+    ),
     'kodova/hamcrest-php' => 
     array (
       'replaced' => 
@@ -450,7 +459,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'b9bf306102aa588d67b9f503f5f4c545b0bb5462',
+      'reference' => 'e8699602eee8bd1f7ab55477def998f0bef5fba6',
     ),
     'laravel/sail' => 
     array (
@@ -533,6 +542,15 @@
       ),
       'reference' => 'f6377c709d2275ed6feaf63e44be7a7162b0e77f',
     ),
+    'league/glide' => 
+    array (
+      'pretty_version' => '2.2.3',
+      'version' => '2.2.3.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '446b1fc9f15101db52e8ddb7bec8cb16e814b244',
+    ),
     'league/mime-type-detection' => 
     array (
       'pretty_version' => '1.11.0',
@@ -541,6 +559,15 @@
       array (
       ),
       'reference' => 'ff6248ea87a9f116e78edd6002e39e5128a0d4dd',
+    ),
+    'maennchen/zipstream-php' => 
+    array (
+      'pretty_version' => 'v2.4.0',
+      'version' => '2.4.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '3fa72e4c71a43f9e9118752a5c90e476a8dc9eb3',
     ),
     'mockery/mockery' => 
     array (
@@ -575,6 +602,15 @@
       array (
       ),
       'reference' => '14daed4296fae74d9e3201d2c4925d1acb7aa614',
+    ),
+    'myclabs/php-enum' => 
+    array (
+      'pretty_version' => '1.8.4',
+      'version' => '1.8.4.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'a867478eae49c9f59ece437ae7f9506bfaa27483',
     ),
     'nesbot/carbon' => 
     array (
@@ -822,8 +858,8 @@
     array (
       'provided' => 
       array (
-        0 => '1.0|2.0|3.0',
-        1 => '1.0.0 || 2.0.0 || 3.0.0',
+        0 => '1.0.0 || 2.0.0 || 3.0.0',
+        1 => '1.0|2.0|3.0',
       ),
     ),
     'psr/simple-cache' => 
@@ -883,8 +919,8 @@
     array (
       'replaced' => 
       array (
-        0 => '4.x-dev',
-        1 => '9999999-dev',
+        0 => '9999999-dev',
+        1 => '4.x-dev',
       ),
     ),
     'sebastian/cli-parser' => 
@@ -1058,6 +1094,24 @@
       ),
       'reference' => '2cf3833220cfe8fcf639544f8d7067b6469a00b0',
     ),
+    'spatie/image' => 
+    array (
+      'pretty_version' => '2.2.5',
+      'version' => '2.2.5.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'c78e2dbdbced9c1673800e5b813cc8a8127bc5ac',
+    ),
+    'spatie/image-optimizer' => 
+    array (
+      'pretty_version' => '1.6.3',
+      'version' => '1.6.3.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '9ed7a80f92310d162adb39f8ffe2622b5ae05d91',
+    ),
     'spatie/laravel-ignition' => 
     array (
       'pretty_version' => '1.6.4',
@@ -1066,6 +1120,24 @@
       array (
       ),
       'reference' => '1a2b4bd3d48c72526c0ba417687e5c56b5cf49bc',
+    ),
+    'spatie/laravel-medialibrary' => 
+    array (
+      'pretty_version' => '10.7.12',
+      'version' => '10.7.12.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '79b7295cf9ed810c777b3ab7f501319146ac8629',
+    ),
+    'spatie/temporary-directory' => 
+    array (
+      'pretty_version' => '2.1.1',
+      'version' => '2.1.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'e2818d871783d520b319c2d38dc37c10ecdcde20',
     ),
     'symfony/console' => 
     array (

@@ -25,6 +25,9 @@
                         {{ trans('cruds.company.fields.id') }}
                     </th>
                     <th>
+                        {{ trans('cruds.company.fields.logo') }}
+                    </th>
+                    <th>
                         {{ trans('cruds.company.fields.name') }}
                     </th>
                     <th>
@@ -111,6 +114,7 @@
     columns: [
       { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
+{ data: 'logo', name: 'logo', sortable: false, searchable: false },
 { data: 'name', name: 'name' },
 { data: 'vat', name: 'vat' },
 { data: 'address', name: 'address' },

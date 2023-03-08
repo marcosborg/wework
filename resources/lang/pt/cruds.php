@@ -99,6 +99,8 @@ return [
             'theme_helper'      => ' ',
             'funnels'           => 'Funís',
             'funnels_helper'    => ' ',
+            'logo'              => 'Logo',
+            'logo_helper'       => ' ',
         ],
     ],
     'country' => [

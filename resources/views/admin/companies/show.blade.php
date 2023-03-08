@@ -25,6 +25,18 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.company.fields.logo') }}
+                        </th>
+                        <td>
+                            @if($company->logo)
+                                <a href="{{ $company->logo->getUrl() }}" target="_blank" style="display: inline-block">
+                                    <img src="{{ $company->logo->getUrl('thumb') }}">
+                                </a>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.company.fields.name') }}
                         </th>
                         <td>
