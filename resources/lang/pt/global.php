@@ -322,4 +322,5 @@ return [
     'leave'                          => 'Sair',
     'calendar'                       => 'Calendário',
     'messenger'                      => 'Mensageiro',
+
 ];

@@ -27,6 +27,13 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.0/css/perfect-scrollbar.min.css"
     rel="stylesheet" />
   <link href="{{ asset('css/custom.css') }}" rel="stylesheet" />
+  @if (auth()->user()->company->theme == 1)
+  <link rel="stylesheet" href="{{ asset('css/theme1.css') }}?v={{ rand() }}">
+  @elseif (auth()->user()->company->theme == 2)
+  <link rel="stylesheet" href="{{ asset('css/theme2.css') }}?v={{ rand() }}">
+  @else
+  <link rel="stylesheet" href="{{ asset('css/theme3.css') }}?v={{ rand() }}">
+  @endif
   @yield('styles')
 </head>
 

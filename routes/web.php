@@ -39,7 +39,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Funnel
     Route::delete('funnels/destroy', 'FunnelController@massDestroy')->name('funnels.massDestroy');
+    Route::post('funnels/media', 'FunnelController@storeMedia')->name('funnels.storeMedia');
+    Route::post('funnels/ckmedia', 'FunnelController@storeCKEditorImages')->name('funnels.storeCKEditorImages');
     Route::resource('funnels', 'FunnelController');
+    Route::get('funnels/funnels/{company_id}', 'FunnelController@funnels');
 
     // Step
     Route::delete('steps/destroy', 'StepController@massDestroy')->name('steps.massDestroy');
@@ -75,4 +78,7 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
         Route::post('profile', 'ChangePasswordController@updateProfile')->name('password.updateProfile');
         Route::post('profile/destroy', 'ChangePasswordController@destroy')->name('password.destroyProfile');
     }
+});
+Route::prefix('products')->group(function () {
+    Route::get('/{company_id}/{funnel_id}', 'ProductController@index');
 });

@@ -28,9 +28,6 @@
                         {{ trans('cruds.funnel.fields.name') }}
                     </th>
                     <th>
-                        {{ trans('cruds.funnel.fields.description') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.funnel.fields.category') }}
                     </th>
                     <th>
@@ -91,7 +88,6 @@
       { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
 { data: 'name', name: 'name' },
-{ data: 'description', name: 'description' },
 { data: 'category_name', name: 'category.name' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],

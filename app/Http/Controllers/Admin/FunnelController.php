@@ -8,6 +8,7 @@ use App\Http\Requests\StoreFunnelRequest;
 use App\Http\Requests\UpdateFunnelRequest;
 use App\Models\Category;
 use App\Models\Funnel;
+use App\Models\Company;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,12 +34,13 @@ class FunnelController extends Controller
                 $crudRoutePart = 'funnels';
 
                 return view('partials.datatablesActions', compact(
-                'viewGate',
-                'editGate',
-                'deleteGate',
-                'crudRoutePart',
-                'row'
-            ));
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                )
+                );
             });
 
             $table->editColumn('id', function ($row) {
@@ -119,5 +121,10 @@ class FunnelController extends Controller
         Funnel::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function funnels(Request $request)
+    {
+        return Company::with('funnels')->where('id', $request->company_id)->first()->funnels->pluck('name', 'id');
     }
 }

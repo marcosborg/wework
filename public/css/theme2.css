@@ -1,0 +1,10 @@
+.c-sidebar {
+    background: #333333;
+}
+
+.c-sidebar-nav-dropdown-toggle, .c-sidebar-nav-link{
+    padding: 10px;
+    font-family: arial;
+    text-transform: uppercase;
+    font-size: 12px;
+}

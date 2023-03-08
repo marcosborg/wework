@@ -49,6 +49,16 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.user.fields.funnels') }}
+                        </th>
+                        <td>
+                            @foreach($user->funnels as $key => $funnels)
+                                <span class="label label-info">{{ $funnels->name }}</span>
+                            @endforeach
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.user.fields.email_verified_at') }}
                         </th>
                         <td>

@@ -7,6 +7,7 @@ use App\Http\Requests\MassDestroyUserRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Company;
+use App\Models\Funnel;
 use App\Models\Role;
 use App\Models\User;
 use Gate;
@@ -21,25 +22,25 @@ class UsersController extends Controller
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = User::with(['company', 'roles'])->select(sprintf('%s.*', (new User())->table));
+            $query = User::with(['company', 'funnels', 'roles'])->select(sprintf('%s.*', (new User)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate = 'user_show';
-                $editGate = 'user_edit';
-                $deleteGate = 'user_delete';
+                $viewGate      = 'user_show';
+                $editGate      = 'user_edit';
+                $deleteGate    = 'user_delete';
                 $crudRoutePart = 'users';
 
                 return view('partials.datatablesActions', compact(
-                'viewGate',
-                'editGate',
-                'deleteGate',
-                'crudRoutePart',
-                'row'
-            ));
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
             });
 
             $table->editColumn('id', function ($row) {
@@ -55,6 +56,15 @@ class UsersController extends Controller
                 return $row->company ? $row->company->name : '';
             });
 
+            $table->editColumn('funnels', function ($row) {
+                $labels = [];
+                foreach ($row->funnels as $funnel) {
+                    $labels[] = sprintf('<span class="label label-info label-many">%s</span>', $funnel->name);
+                }
+
+                return implode(' ', $labels);
+            });
+
             $table->editColumn('roles', function ($row) {
                 $labels = [];
                 foreach ($row->roles as $role) {
@@ -64,7 +74,7 @@ class UsersController extends Controller
                 return implode(' ', $labels);
             });
 
-            $table->rawColumns(['actions', 'placeholder', 'company', 'roles']);
+            $table->rawColumns(['actions', 'placeholder', 'company', 'funnels', 'roles']);
 
             return $table->make(true);
         }
@@ -86,6 +96,7 @@ class UsersController extends Controller
     public function store(StoreUserRequest $request)
     {
         $user = User::create($request->all());
+        $user->funnels()->sync($request->input('funnels', []));
         $user->roles()->sync($request->input('roles', []));
 
         return redirect()->route('admin.users.index');
@@ -99,14 +110,17 @@ class UsersController extends Controller
 
         $roles = Role::pluck('title', 'id');
 
-        $user->load('company', 'roles');
+        $user->load('company', 'funnels', 'roles');
 
-        return view('admin.users.edit', compact('companies', 'roles', 'user'));
+        $funnels = Company::where('id', $user->company_id)->with('funnels')->first()->funnels->pluck('name', 'id');
+
+        return view('admin.users.edit', compact('companies', 'funnels', 'roles', 'user'));
     }
 
     public function update(UpdateUserRequest $request, User $user)
     {
         $user->update($request->all());
+        $user->funnels()->sync($request->input('funnels', []));
         $user->roles()->sync($request->input('roles', []));
 
         return redirect()->route('admin.users.index');
@@ -116,7 +130,7 @@ class UsersController extends Controller
     {
         abort_if(Gate::denies('user_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $user->load('company', 'roles', 'userItems');
+        $user->load('company', 'funnels', 'roles', 'userItems');
 
         return view('admin.users.show', compact('user'));
     }
@@ -132,7 +146,11 @@ class UsersController extends Controller
 
     public function massDestroy(MassDestroyUserRequest $request)
     {
-        User::whereIn('id', request('ids'))->delete();
+        $users = User::find(request('ids'));
+
+        foreach ($users as $user) {
+            $user->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

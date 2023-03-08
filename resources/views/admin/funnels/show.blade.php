@@ -36,7 +36,15 @@
                             {{ trans('cruds.funnel.fields.description') }}
                         </th>
                         <td>
-                            {{ $funnel->description }}
+                            {!! $funnel->description !!}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.funnel.fields.description_2') }}
+                        </th>
+                        <td>
+                            {!! $funnel->description_2 !!}
                         </td>
                     </tr>
                     <tr>
@@ -58,6 +66,30 @@
     </div>
 </div>
 
-
+<div class="card">
+    <div class="card-header">
+        {{ trans('global.relatedData') }}
+    </div>
+    <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
+        <li class="nav-item">
+            <a class="nav-link" href="#funnel_steps" role="tab" data-toggle="tab">
+                {{ trans('cruds.step.title') }}
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#funnels_companies" role="tab" data-toggle="tab">
+                {{ trans('cruds.company.title') }}
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane" role="tabpanel" id="funnel_steps">
+            @includeIf('admin.funnels.relationships.funnelSteps', ['steps' => $funnel->funnelSteps])
+        </div>
+        <div class="tab-pane" role="tabpanel" id="funnels_companies">
+            @includeIf('admin.funnels.relationships.funnelsCompanies', ['companies' => $funnel->funnelsCompanies])
+        </div>
+    </div>
+</div>
 
 @endsection
