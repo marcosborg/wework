@@ -33,10 +33,11 @@
                                         <small>{{ $item->lastInput[0]->description }}</small>
                                     </p>
                                     <p>
-                                        <a href="#" data-bs-toggle="modal" data-bs-target="#addInput">+ atividade</a><span class="badge text-bg-primary float-end">{{
+                                        <span class="badge text-bg-primary">Atualizado {{
                                             \Carbon\Carbon::parse($item->lastInput[0]->created_at)->diffForHumans()
                                             }}</span>
                                     </p>
+                                    <button class="btn btn-success btn-sm">Info</button>
                                     @endif
                                 </div>
                             </div>
@@ -55,3 +56,4 @@
     Não existem funís atribuidos!
 </div>
 @endif
+<script>console.log({!! $category !!})</script>

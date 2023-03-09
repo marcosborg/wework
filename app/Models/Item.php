@@ -50,7 +50,7 @@ class Item extends Model implements HasMedia
 
     public function lastInput()
     {
-        return $this->hasMany(Input::class, 'item_id', 'id')->orderBy('id', 'desc')->limit(1);
+        return $this->hasMany(Input::class, 'item_id', 'id')->orderBy('id', 'desc');
     }
 
     public function step()

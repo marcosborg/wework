@@ -89,6 +89,7 @@ class ProductController extends Controller
         $input = new Input;
         $input->name = $funnel->steps[0]->name;
         $input->description = 'Candidato concorre ao distrito ' . $district->name;
+        $input->item_id = $item->id;
         $input->save();
 
         return redirect()->back()->with('success', 'Enviado com sucesso.');
