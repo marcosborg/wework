@@ -63,6 +63,18 @@
                             {{ $item->client->first_name ?? '' }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.item.fields.file') }}
+                        </th>
+                        <td>
+                            @if($item->file)
+                                <a href="{{ $item->file->getUrl() }}" target="_blank">
+                                    {{ trans('global.view_file') }}
+                                </a>
+                            @endif
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

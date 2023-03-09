@@ -251,6 +251,8 @@ return [
             'user_helper'        => ' ',
             'client'             => 'Cliente',
             'client_helper'      => ' ',
+            'file'               => 'Ficheiro',
+            'file_helper'        => ' ',
         ],
     ],
     'input' => [

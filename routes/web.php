@@ -60,6 +60,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Item
     Route::delete('items/destroy', 'ItemController@massDestroy')->name('items.massDestroy');
+    Route::post('items/media', 'ItemController@storeMedia')->name('items.storeMedia');
+    Route::post('items/ckmedia', 'ItemController@storeCKEditorImages')->name('items.storeCKEditorImages');
     Route::resource('items', 'ItemController');
 
     // Input

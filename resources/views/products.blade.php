@@ -20,6 +20,20 @@
             {!! $funnel->description !!}
         </div>
         <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal">Fazer candidatura</button>
+        @if ($errors->any())
+        <div class="alert alert-danger mt-4">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+        @if (Session::has('success'))
+        <div class="alert alert-success mt-4">
+            {{ Session::get('success') }}
+        </div>
+        @endif
         <div class="mt-5">
             {!! $funnel->description_2 !!}
         </div>
@@ -71,7 +85,7 @@
                         </div>
                         <div class="form-group">
                             <label>Anexar CV</label>
-                            <input type="file" name="cv" class="form-control">
+                            <input type="file" name="file" class="form-control">
                         </div>
                     </div>
                     <div class="modal-footer">

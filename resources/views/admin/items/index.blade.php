@@ -40,6 +40,9 @@
                         {{ trans('cruds.item.fields.client') }}
                     </th>
                     <th>
+                        {{ trans('cruds.item.fields.file') }}
+                    </th>
+                    <th>
                         &nbsp;
                     </th>
                 </tr>
@@ -101,6 +104,7 @@
 { data: 'step_name', name: 'step.name' },
 { data: 'user_name', name: 'user.name' },
 { data: 'client_first_name', name: 'client.first_name' },
+{ data: 'file', name: 'file', sortable: false, searchable: false },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,

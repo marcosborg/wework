@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\MassDestroyItemRequest;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
@@ -12,35 +13,38 @@ use App\Models\Step;
 use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 
 class ItemController extends Controller
 {
+    use MediaUploadingTrait;
+
     public function index(Request $request)
     {
         abort_if(Gate::denies('item_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Item::with(['step', 'user', 'client'])->select(sprintf('%s.*', (new Item())->table));
+            $query = Item::with(['step', 'user', 'client'])->select(sprintf('%s.*', (new Item)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate = 'item_show';
-                $editGate = 'item_edit';
-                $deleteGate = 'item_delete';
+                $viewGate      = 'item_show';
+                $editGate      = 'item_edit';
+                $deleteGate    = 'item_delete';
                 $crudRoutePart = 'items';
 
                 return view('partials.datatablesActions', compact(
-                'viewGate',
-                'editGate',
-                'deleteGate',
-                'crudRoutePart',
-                'row'
-            ));
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
             });
 
             $table->editColumn('id', function ($row) {
@@ -64,7 +68,11 @@ class ItemController extends Controller
                 return $row->client ? $row->client->first_name : '';
             });
 
-            $table->rawColumns(['actions', 'placeholder', 'step', 'user', 'client']);
+            $table->editColumn('file', function ($row) {
+                return $row->file ? '<a href="' . $row->file->getUrl() . '" target="_blank">' . trans('global.downloadFile') . '</a>' : '';
+            });
+
+            $table->rawColumns(['actions', 'placeholder', 'step', 'user', 'client', 'file']);
 
             return $table->make(true);
         }
@@ -89,6 +97,14 @@ class ItemController extends Controller
     {
         $item = Item::create($request->all());
 
+        if ($request->input('file', false)) {
+            $item->addMedia(storage_path('tmp/uploads/' . basename($request->input('file'))))->toMediaCollection('file');
+        }
+
+        if ($media = $request->input('ck-media', false)) {
+            Media::whereIn('id', $media)->update(['model_id' => $item->id]);
+        }
+
         return redirect()->route('admin.items.index');
     }
 
@@ -110,6 +126,17 @@ class ItemController extends Controller
     public function update(UpdateItemRequest $request, Item $item)
     {
         $item->update($request->all());
+
+        if ($request->input('file', false)) {
+            if (! $item->file || $request->input('file') !== $item->file->file_name) {
+                if ($item->file) {
+                    $item->file->delete();
+                }
+                $item->addMedia(storage_path('tmp/uploads/' . basename($request->input('file'))))->toMediaCollection('file');
+            }
+        } elseif ($item->file) {
+            $item->file->delete();
+        }
 
         return redirect()->route('admin.items.index');
     }
@@ -134,8 +161,24 @@ class ItemController extends Controller
 
     public function massDestroy(MassDestroyItemRequest $request)
     {
-        Item::whereIn('id', request('ids'))->delete();
+        $items = Item::find(request('ids'));
+
+        foreach ($items as $item) {
+            $item->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function storeCKEditorImages(Request $request)
+    {
+        abort_if(Gate::denies('item_create') && Gate::denies('item_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $model         = new Item();
+        $model->id     = $request->input('crud_id', 0);
+        $model->exists = true;
+        $media         = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
+
+        return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
     }
 }

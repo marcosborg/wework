@@ -29,7 +29,7 @@ class StoreItemRequest extends FormRequest
                 'required',
                 'integer',
             ],
-            'user_id' => [
+            'client_id' => [
                 'required',
                 'integer',
             ],
