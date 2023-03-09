@@ -55,6 +55,58 @@
                 <span class="help-block">{{ trans('cruds.funnel.fields.category_helper') }}</span>
             </div>
             <div class="form-group">
+                <div class="form-check {{ $errors->has('file') ? 'is-invalid' : '' }}">
+                    <input type="hidden" name="file" value="0">
+                    <input class="form-check-input" type="checkbox" name="file" id="file" value="1" {{ $funnel->file || old('file', 0) === 1 ? 'checked' : '' }}>
+                    <label class="form-check-label" for="file">{{ trans('cruds.funnel.fields.file') }}</label>
+                </div>
+                @if($errors->has('file'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('file') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.funnel.fields.file_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <div class="form-check {{ $errors->has('message') ? 'is-invalid' : '' }}">
+                    <input type="hidden" name="message" value="0">
+                    <input class="form-check-input" type="checkbox" name="message" id="message" value="1" {{ $funnel->message || old('message', 0) === 1 ? 'checked' : '' }}>
+                    <label class="form-check-label" for="message">{{ trans('cruds.funnel.fields.message') }}</label>
+                </div>
+                @if($errors->has('message'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('message') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.funnel.fields.message_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <div class="form-check {{ $errors->has('notify_client') ? 'is-invalid' : '' }}">
+                    <input type="hidden" name="notify_client" value="0">
+                    <input class="form-check-input" type="checkbox" name="notify_client" id="notify_client" value="1" {{ $funnel->notify_client || old('notify_client', 0) === 1 ? 'checked' : '' }}>
+                    <label class="form-check-label" for="notify_client">{{ trans('cruds.funnel.fields.notify_client') }}</label>
+                </div>
+                @if($errors->has('notify_client'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('notify_client') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.funnel.fields.notify_client_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <div class="form-check {{ $errors->has('notify_company') ? 'is-invalid' : '' }}">
+                    <input type="hidden" name="notify_company" value="0">
+                    <input class="form-check-input" type="checkbox" name="notify_company" id="notify_company" value="1" {{ $funnel->notify_company || old('notify_company', 0) === 1 ? 'checked' : '' }}>
+                    <label class="form-check-label" for="notify_company">{{ trans('cruds.funnel.fields.notify_company') }}</label>
+                </div>
+                @if($errors->has('notify_company'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('notify_company') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.funnel.fields.notify_company_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

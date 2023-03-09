@@ -56,7 +56,20 @@ class FunnelController extends Controller
                 return $row->category ? $row->category->name : '';
             });
 
-            $table->rawColumns(['actions', 'placeholder', 'category']);
+            $table->editColumn('file', function ($row) {
+                return '<input type="checkbox" disabled ' . ($row->file ? 'checked' : null) . '>';
+            });
+            $table->editColumn('message', function ($row) {
+                return '<input type="checkbox" disabled ' . ($row->message ? 'checked' : null) . '>';
+            });
+            $table->editColumn('notify_client', function ($row) {
+                return '<input type="checkbox" disabled ' . ($row->notify_client ? 'checked' : null) . '>';
+            });
+            $table->editColumn('notify_company', function ($row) {
+                return '<input type="checkbox" disabled ' . ($row->notify_company ? 'checked' : null) . '>';
+            });
+
+            $table->rawColumns(['actions', 'placeholder', 'category', 'file', 'message', 'notify_client', 'notify_company']);
 
             return $table->make(true);
         }
@@ -126,5 +139,17 @@ class FunnelController extends Controller
     public function funnels(Request $request)
     {
         return Company::with('funnels')->where('id', $request->company_id)->first()->funnels->pluck('name', 'id');
+    }
+
+    public function storeCKEditorImages(Request $request)
+    {
+        abort_if(Gate::denies('funnel_create') && Gate::denies('funnel_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $model         = new Funnel();
+        $model->id     = $request->input('crud_id', 0);
+        $model->exists = true;
+        $media         = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
+
+        return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
     }
 }

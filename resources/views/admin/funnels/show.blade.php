@@ -55,6 +55,38 @@
                             {{ $funnel->category->name ?? '' }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.funnel.fields.file') }}
+                        </th>
+                        <td>
+                            <input type="checkbox" disabled="disabled" {{ $funnel->file ? 'checked' : '' }}>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.funnel.fields.message') }}
+                        </th>
+                        <td>
+                            <input type="checkbox" disabled="disabled" {{ $funnel->message ? 'checked' : '' }}>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.funnel.fields.notify_client') }}
+                        </th>
+                        <td>
+                            <input type="checkbox" disabled="disabled" {{ $funnel->notify_client ? 'checked' : '' }}>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.funnel.fields.notify_company') }}
+                        </th>
+                        <td>
+                            <input type="checkbox" disabled="disabled" {{ $funnel->notify_company ? 'checked' : '' }}>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">
