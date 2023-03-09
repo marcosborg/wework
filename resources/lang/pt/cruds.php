@@ -277,5 +277,21 @@ return [
         'title'          => 'Projetos',
         'title_singular' => 'Projeto',
     ],
+    'district' => [
+        'title'          => 'Distritos',
+        'title_singular' => 'Distrito',
+        'fields'         => [
+            'id'                => 'ID',
+            'id_helper'         => ' ',
+            'name'              => 'Nome',
+            'name_helper'       => ' ',
+            'created_at'        => 'Created at',
+            'created_at_helper' => ' ',
+            'updated_at'        => 'Updated at',
+            'updated_at_helper' => ' ',
+            'deleted_at'        => 'Deleted at',
+            'deleted_at_helper' => ' ',
+        ],
+    ],
 
 ];

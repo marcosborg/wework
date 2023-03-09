@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\District;
 use App\Models\Funnel;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,8 +30,22 @@ class ProductController extends Controller
             ->with('firstStep')
             ->first();
 
+        $districts = District::all()->pluck('name', 'id');
+
         return view('products')->with([
             'funnel' => $funnel,
+            'company' => $company,
+            'districts' => $districts,
         ]);
+    }
+
+    public function submit(Request $request)
+    {
+        $request->validate([
+            
+        ], [], [
+
+        ]);
+        return $request;
     }
 }

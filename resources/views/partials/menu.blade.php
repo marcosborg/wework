@@ -126,6 +126,16 @@
                             </a>
                         </li>
                     @endcan
+                    @can('district_access')
+                        <li class="c-sidebar-nav-item">
+                            <a href="{{ route("admin.districts.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/districts") || request()->is("admin/districts/*") ? "c-active" : "" }}">
+                                <i class="fa-fw fas fa-map-pin c-sidebar-nav-icon">
+
+                                </i>
+                                {{ trans('cruds.district.title') }}
+                            </a>
+                        </li>
+                    @endcan
                 </ul>
             </li>
         @endcan

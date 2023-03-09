@@ -71,6 +71,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('projectsAjax/{category_id?}', 'ProjectController@ajax');
     Route::post('projectsUpdate', 'ProjectController@projectsUpdate');
 
+    // District
+    Route::delete('districts/destroy', 'DistrictController@massDestroy')->name('districts.massDestroy');
+    Route::resource('districts', 'DistrictController');
+
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
     // Change password
@@ -83,4 +87,5 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
 });
 Route::prefix('products')->group(function () {
     Route::get('/{company_id}/{funnel_id}', 'ProductController@index');
+    Route::post('submit', 'ProductController@submit');
 });
