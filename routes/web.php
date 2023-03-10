@@ -91,3 +91,7 @@ Route::prefix('products')->group(function () {
     Route::get('/{company_id}/{funnel_id}', 'ProductController@index');
     Route::post('submit', 'ProductController@submit');
 });
+
+Route::get('teste', function(){
+    return view('teste');
+});
