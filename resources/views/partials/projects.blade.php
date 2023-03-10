@@ -12,6 +12,7 @@
     @foreach ($category->funnels as $key => $funnel)
     <div class="tab-pane fade {{ $key == 0 ? 'show active' : '' }}" id="{{ $key }}-tab-pane" role="tabpanel"
         aria-labelledby="{{ $key }}-tab" tabindex="0">
+        <button type="button" onclick="getForm({{ $funnel->id }})" class="btn btn-success btn-sm mt-4">Formulário</button>
         <div class="row mt-4">
             @foreach ($funnel->steps as $step)
             <div class="col">

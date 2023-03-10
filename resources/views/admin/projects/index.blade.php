@@ -49,8 +49,24 @@
     </div>
 </div>
 
-@endsection
+<div class="modal fade" id="form" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Formulário para incorporar</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <code id="code">&lt;iframe src="https://we-work.pt/products/1/3" frameborder="0" width="100%" height="500px;"&gt;&lt;/iframe&gt;</code>
+            </div>
+        </div>
+    </div>
+</div>
 
+@endsection
+@section('styles')
+
+@endsection
 @section('scripts')
 @parent
 <script>
@@ -104,6 +120,11 @@
 
     allowDrop = (ev) => {
         ev.preventDefault();
+    }
+
+    getForm = (funnel_id) => {
+        console.log(funnel_id);
+        $('#form').modal('show');
     }
 </script>
 @endsection
