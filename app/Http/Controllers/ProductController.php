@@ -10,53 +10,26 @@ use App\Models\Input;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
-    public function index(Request $request)
-    {
-
-        //VERIFICA SE FUNIL PODE SER UTILIZADO PELA EMPRESA
-
-        $company = Company::where([
-            'id' => $request->company_id
-        ])->whereHas('funnels', function ($query) use ($request) {
-            $query->where('id', $request->funnel_id);
-        })
-            ->first();
-
-        abort_if(!$company, Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $funnel = Funnel::where([
-            'id' => $request->funnel_id,
-        ])
-            ->with('firstStep')
-            ->first();
-
-        $districts = District::all()->pluck('name', 'id');
-
-        return view('products')->with([
-            'funnel' => $funnel,
-            'company' => $company,
-            'districts' => $districts,
-        ]);
-    }
 
     public function submit(Request $request)
     {
-        $request->validate([
+
+        $validator = Validator::make($request->all(), [
             'first_name' => 'required',
             'last_name' => 'required',
             'phone' => 'required',
             'email' => 'required',
             'file' => 'required',
-        ], [], [
-                'first_name' => 'Nome',
-                'last_name' => 'Sobrenome',
-                'phone' => 'Contacto',
-                'email' => 'Email',
-                'file' => 'CV',
-            ]);
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            return response()->json(['errors' => $errors], 422);
+        }
 
         //CRIAR CLIENT
         $client = new Client;
@@ -92,6 +65,6 @@ class ProductController extends Controller
         $input->item_id = $item->id;
         $input->save();
 
-        return redirect()->back()->with('success', 'Enviado com sucesso.');
+        return [];
     }
 }
