@@ -31,7 +31,7 @@ const form = document.getElementById('submit_product');
     formData.append("file", file);
   
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", "/api/products/submit");
+    xhr.open("POST", "https://we-work.pt/api/products/submit");
     xhr.onreadystatechange = function() {
     if (xhr.readyState === 4) { // When the request is complete
         if (xhr.status === 200) { // If the response status is OK
