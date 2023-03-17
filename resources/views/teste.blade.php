@@ -35,4 +35,4 @@
     <input type="file" name="file" id="file"><br>
     <button type="submit" class="btn btn-primary mt-4">Submeter</button>
 </form>
-<script src="https://we-work.pt/api/submit_product.js"></script>
+<script src="https://we-work.pt/api/submit_product.js?v=2"></script>

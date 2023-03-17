@@ -44,6 +44,7 @@ const form = document.getElementById('submit_product');
             const error = xhr.statusText; // Get the error message
             alert('Os campos são todos obrigatórios.');
         }
+        console.log()
     }
 };
     xhr.send(formData);
