@@ -77,6 +77,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('districts/destroy', 'DistrictController@massDestroy')->name('districts.massDestroy');
     Route::resource('districts', 'DistrictController');
 
+    // Form
+    Route::prefix('forms')->group(
+        function () {
+            Route::get('/', 'FormController@index')->name('forms.index');
+        }
+    );
+
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
     // Change password
@@ -88,6 +95,6 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
     }
 });
 
-Route::get('teste', function(){
+Route::get('teste', function () {
     return view('teste');
 });

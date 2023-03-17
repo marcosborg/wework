@@ -3,34 +3,37 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\MassDestroyFunnelRequest;
 use App\Http\Requests\StoreFunnelRequest;
 use App\Http\Requests\UpdateFunnelRequest;
 use App\Models\Category;
 use App\Models\Funnel;
-use App\Models\Company;
 use Gate;
 use Illuminate\Http\Request;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 
 class FunnelController extends Controller
 {
+    use MediaUploadingTrait;
+
     public function index(Request $request)
     {
         abort_if(Gate::denies('funnel_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Funnel::with(['category'])->select(sprintf('%s.*', (new Funnel())->table));
+            $query = Funnel::with(['category'])->select(sprintf('%s.*', (new Funnel)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate = 'funnel_show';
-                $editGate = 'funnel_edit';
-                $deleteGate = 'funnel_delete';
+                $viewGate      = 'funnel_show';
+                $editGate      = 'funnel_edit';
+                $deleteGate    = 'funnel_delete';
                 $crudRoutePart = 'funnels';
 
                 return view('partials.datatablesActions', compact(
@@ -39,8 +42,7 @@ class FunnelController extends Controller
                     'deleteGate',
                     'crudRoutePart',
                     'row'
-                )
-                );
+                ));
             });
 
             $table->editColumn('id', function ($row) {
@@ -48,9 +50,6 @@ class FunnelController extends Controller
             });
             $table->editColumn('name', function ($row) {
                 return $row->name ? $row->name : '';
-            });
-            $table->editColumn('description', function ($row) {
-                return $row->description ? $row->description : '';
             });
             $table->addColumn('category_name', function ($row) {
                 return $row->category ? $row->category->name : '';
@@ -62,14 +61,8 @@ class FunnelController extends Controller
             $table->editColumn('message', function ($row) {
                 return '<input type="checkbox" disabled ' . ($row->message ? 'checked' : null) . '>';
             });
-            $table->editColumn('notify_client', function ($row) {
-                return '<input type="checkbox" disabled ' . ($row->notify_client ? 'checked' : null) . '>';
-            });
-            $table->editColumn('notify_company', function ($row) {
-                return '<input type="checkbox" disabled ' . ($row->notify_company ? 'checked' : null) . '>';
-            });
 
-            $table->rawColumns(['actions', 'placeholder', 'category', 'file', 'message', 'notify_client', 'notify_company']);
+            $table->rawColumns(['actions', 'placeholder', 'category', 'file', 'message']);
 
             return $table->make(true);
         }
@@ -89,6 +82,10 @@ class FunnelController extends Controller
     public function store(StoreFunnelRequest $request)
     {
         $funnel = Funnel::create($request->all());
+
+        if ($media = $request->input('ck-media', false)) {
+            Media::whereIn('id', $media)->update(['model_id' => $funnel->id]);
+        }
 
         return redirect()->route('admin.funnels.index');
     }
@@ -115,7 +112,7 @@ class FunnelController extends Controller
     {
         abort_if(Gate::denies('funnel_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $funnel->load('category');
+        $funnel->load('category', 'funnelSteps', 'funnelsCompanies');
 
         return view('admin.funnels.show', compact('funnel'));
     }
@@ -131,14 +128,13 @@ class FunnelController extends Controller
 
     public function massDestroy(MassDestroyFunnelRequest $request)
     {
-        Funnel::whereIn('id', request('ids'))->delete();
+        $funnels = Funnel::find(request('ids'));
+
+        foreach ($funnels as $funnel) {
+            $funnel->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
-    }
-
-    public function funnels(Request $request)
-    {
-        return Company::with('funnels')->where('id', $request->company_id)->first()->funnels->pluck('name', 'id');
     }
 
     public function storeCKEditorImages(Request $request)

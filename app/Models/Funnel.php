@@ -30,8 +30,6 @@ class Funnel extends Model
         'category_id',
         'file',
         'message',
-        'notify_client',
-        'notify_company',
         'created_at',
         'updated_at',
         'deleted_at',

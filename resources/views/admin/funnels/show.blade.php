@@ -41,14 +41,6 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.funnel.fields.description_2') }}
-                        </th>
-                        <td>
-                            {!! $funnel->description_2 !!}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.funnel.fields.category') }}
                         </th>
                         <td>
@@ -69,22 +61,6 @@
                         </th>
                         <td>
                             <input type="checkbox" disabled="disabled" {{ $funnel->message ? 'checked' : '' }}>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.funnel.fields.notify_client') }}
-                        </th>
-                        <td>
-                            <input type="checkbox" disabled="disabled" {{ $funnel->notify_client ? 'checked' : '' }}>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.funnel.fields.notify_company') }}
-                        </th>
-                        <td>
-                            <input type="checkbox" disabled="disabled" {{ $funnel->notify_company ? 'checked' : '' }}>
                         </td>
                     </tr>
                 </tbody>

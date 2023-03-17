@@ -21,10 +21,6 @@ class UpdateFunnelRequest extends FormRequest
                 'string',
                 'required',
             ],
-            'description' => [
-                'string',
-                'nullable',
-            ],
             'category_id' => [
                 'required',
                 'integer',
