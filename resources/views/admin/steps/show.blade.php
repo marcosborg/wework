@@ -47,6 +47,38 @@
                             {{ $step->state->name ?? '' }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.step.fields.notify_client') }}
+                        </th>
+                        <td>
+                            <input type="checkbox" disabled="disabled" {{ $step->notify_client ? 'checked' : '' }}>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.step.fields.notify_company') }}
+                        </th>
+                        <td>
+                            <input type="checkbox" disabled="disabled" {{ $step->notify_company ? 'checked' : '' }}>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.step.fields.notify_user') }}
+                        </th>
+                        <td>
+                            <input type="checkbox" disabled="disabled" {{ $step->notify_user ? 'checked' : '' }}>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.step.fields.template') }}
+                        </th>
+                        <td>
+                            {!! $step->template !!}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

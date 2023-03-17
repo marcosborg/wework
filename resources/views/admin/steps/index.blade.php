@@ -34,6 +34,15 @@
                         {{ trans('cruds.step.fields.state') }}
                     </th>
                     <th>
+                        {{ trans('cruds.step.fields.notify_client') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.step.fields.notify_company') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.step.fields.notify_user') }}
+                    </th>
+                    <th>
                         &nbsp;
                     </th>
                 </tr>
@@ -93,6 +102,9 @@
 { data: 'name', name: 'name' },
 { data: 'funnel_name', name: 'funnel.name' },
 { data: 'state_name', name: 'state.name' },
+{ data: 'notify_client', name: 'notify_client' },
+{ data: 'notify_company', name: 'notify_company' },
+{ data: 'notify_user', name: 'notify_user' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,

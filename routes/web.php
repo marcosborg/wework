@@ -48,6 +48,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Step
     Route::delete('steps/destroy', 'StepController@massDestroy')->name('steps.massDestroy');
+    Route::post('steps/media', 'StepController@storeMedia')->name('steps.storeMedia');
+    Route::post('steps/ckmedia', 'StepController@storeCKEditorImages')->name('steps.storeCKEditorImages');
     Route::resource('steps', 'StepController');
 
     // Category

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\MassDestroyStepRequest;
 use App\Http\Requests\StoreStepRequest;
 use App\Http\Requests\UpdateStepRequest;
@@ -11,35 +12,38 @@ use App\Models\State;
 use App\Models\Step;
 use Gate;
 use Illuminate\Http\Request;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 
 class StepController extends Controller
 {
+    use MediaUploadingTrait;
+
     public function index(Request $request)
     {
         abort_if(Gate::denies('step_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Step::with(['funnel', 'state'])->select(sprintf('%s.*', (new Step())->table));
+            $query = Step::with(['funnel', 'state'])->select(sprintf('%s.*', (new Step)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate = 'step_show';
-                $editGate = 'step_edit';
-                $deleteGate = 'step_delete';
+                $viewGate      = 'step_show';
+                $editGate      = 'step_edit';
+                $deleteGate    = 'step_delete';
                 $crudRoutePart = 'steps';
 
                 return view('partials.datatablesActions', compact(
-                'viewGate',
-                'editGate',
-                'deleteGate',
-                'crudRoutePart',
-                'row'
-            ));
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
             });
 
             $table->editColumn('id', function ($row) {
@@ -56,7 +60,17 @@ class StepController extends Controller
                 return $row->state ? $row->state->name : '';
             });
 
-            $table->rawColumns(['actions', 'placeholder', 'funnel', 'state']);
+            $table->editColumn('notify_client', function ($row) {
+                return '<input type="checkbox" disabled ' . ($row->notify_client ? 'checked' : null) . '>';
+            });
+            $table->editColumn('notify_company', function ($row) {
+                return '<input type="checkbox" disabled ' . ($row->notify_company ? 'checked' : null) . '>';
+            });
+            $table->editColumn('notify_user', function ($row) {
+                return '<input type="checkbox" disabled ' . ($row->notify_user ? 'checked' : null) . '>';
+            });
+
+            $table->rawColumns(['actions', 'placeholder', 'funnel', 'state', 'notify_client', 'notify_company', 'notify_user']);
 
             return $table->make(true);
         }
@@ -78,6 +92,10 @@ class StepController extends Controller
     public function store(StoreStepRequest $request)
     {
         $step = Step::create($request->all());
+
+        if ($media = $request->input('ck-media', false)) {
+            Media::whereIn('id', $media)->update(['model_id' => $step->id]);
+        }
 
         return redirect()->route('admin.steps.index');
     }
@@ -122,8 +140,24 @@ class StepController extends Controller
 
     public function massDestroy(MassDestroyStepRequest $request)
     {
-        Step::whereIn('id', request('ids'))->delete();
+        $steps = Step::find(request('ids'));
+
+        foreach ($steps as $step) {
+            $step->delete();
+        }
 
         return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function storeCKEditorImages(Request $request)
+    {
+        abort_if(Gate::denies('step_create') && Gate::denies('step_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $model         = new Step();
+        $model->id     = $request->input('crud_id', 0);
+        $model->exists = true;
+        $media         = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
+
+        return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
     }
 }
