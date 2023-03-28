@@ -55,8 +55,14 @@ class FunnelController extends Controller
                 return $row->category ? $row->category->name : '';
             });
 
+            $table->editColumn('file_text', function ($row) {
+                return $row->file_text ? $row->file_text : '';
+            });
             $table->editColumn('file', function ($row) {
                 return '<input type="checkbox" disabled ' . ($row->file ? 'checked' : null) . '>';
+            });
+            $table->editColumn('message_text', function ($row) {
+                return $row->message_text ? $row->message_text : '';
             });
             $table->editColumn('message', function ($row) {
                 return '<input type="checkbox" disabled ' . ($row->message ? 'checked' : null) . '>';

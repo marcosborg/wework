@@ -47,6 +47,7 @@ class ProductController extends Controller
         $item->name = $funnel->name;
         $item->step_id = $funnel->steps[0]->id;
         $item->client_id = $client->id;
+        $item->description = $request->description;
         $item->save();
 
         //ENVIAR CV

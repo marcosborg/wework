@@ -49,10 +49,26 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.step.fields.sender') }}
+                        </th>
+                        <td>
+                            {{ $step->sender }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.step.fields.notify_client') }}
                         </th>
                         <td>
                             <input type="checkbox" disabled="disabled" {{ $step->notify_client ? 'checked' : '' }}>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.step.fields.template_client') }}
+                        </th>
+                        <td>
+                            {!! $step->template_client !!}
                         </td>
                     </tr>
                     <tr>
@@ -65,6 +81,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.step.fields.template_company') }}
+                        </th>
+                        <td>
+                            {!! $step->template_company !!}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.step.fields.notify_user') }}
                         </th>
                         <td>
@@ -73,10 +97,10 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.step.fields.template') }}
+                            {{ trans('cruds.step.fields.template_user') }}
                         </th>
                         <td>
-                            {!! $step->template !!}
+                            {!! $step->template_user !!}
                         </td>
                     </tr>
                 </tbody>

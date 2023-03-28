@@ -28,6 +28,10 @@
                     </select>
                 </div>
                 <div class="form-group">
+                    <label>Descrição</label>
+                    <input type="text" name="description" id="description" class="form-control">
+                </div>
+                <div class="form-group">
                     <button onclick="getForm()" type="button" class="btn btn-success">Mostrar formulário</button>
                 </div>
             </div>
@@ -47,15 +51,17 @@
     getForm = () => {
     let funnel_id = $('#funnel_id').val();
     let company_id = $('#company_id').val();
-    if(!funnel_id || !company_id){
+    let description = $('#description').val();
+    if(!funnel_id || !company_id || !description){
         Swal.fire('Os campos são obrigatórios');
     } else {
         let html = '<div class="alert alert-info">';
         html += '<code>';
         html += '&lt;script src="https://we-work.pt/api/submit_product.js"&gt;&lt;/script&gt;';
         html += '&lt;form action="/api/products/submit" method="post" enctype="multipart/form-data" id="submit_product"&gt;';
-        html += '&lt;input type="hidden" name="company_id" id="company_id" value="1"&gt;';
-        html += '&lt;input type="hidden" name="funnel_id" id="funnel_id" value="3"&gt;';
+        html += '&lt;input type="hidden" name="company_id" id="company_id" value="' + company_id + '"&gt;';
+        html += '&lt;input type="hidden" name="funnel_id" id="funnel_id" value="' + funnel_id + '"&gt;';
+        html += '&lt;input type="hidden" name="description" id="description" value="' + description + '"&gt;';
         html += '&lt;label&gt;Nome&lt;/label&gt;&lt;br&gt;';
         html += '&lt;input type="text" name="first_name" id="first_name"&gt;&lt;br&gt;';
         html += '&lt;label&gt;Sobrenome&lt;/label&gt;&lt;br&gt;';

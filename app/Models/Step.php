@@ -26,13 +26,16 @@ class Step extends Model implements HasMedia
         'name',
         'funnel_id',
         'state_id',
+        'sender',
+        'notify_client',
+        'template_client',
+        'notify_company',
+        'template_company',
+        'notify_user',
+        'template_user',
         'created_at',
         'updated_at',
         'deleted_at',
-        'notify_client',
-        'notify_company',
-        'notify_user',
-        'template',
     ];
 
     public function stepItems()

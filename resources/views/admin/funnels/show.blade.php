@@ -49,10 +49,26 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.funnel.fields.file_text') }}
+                        </th>
+                        <td>
+                            {{ $funnel->file_text }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.funnel.fields.file') }}
                         </th>
                         <td>
                             <input type="checkbox" disabled="disabled" {{ $funnel->file ? 'checked' : '' }}>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.funnel.fields.message_text') }}
+                        </th>
+                        <td>
+                            {{ $funnel->message_text }}
                         </td>
                     </tr>
                     <tr>

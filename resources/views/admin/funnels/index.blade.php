@@ -31,7 +31,13 @@
                         {{ trans('cruds.funnel.fields.category') }}
                     </th>
                     <th>
+                        {{ trans('cruds.funnel.fields.file_text') }}
+                    </th>
+                    <th>
                         {{ trans('cruds.funnel.fields.file') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.funnel.fields.message_text') }}
                     </th>
                     <th>
                         {{ trans('cruds.funnel.fields.message') }}
@@ -95,7 +101,9 @@
 { data: 'id', name: 'id' },
 { data: 'name', name: 'name' },
 { data: 'category_name', name: 'category.name' },
+{ data: 'file_text', name: 'file_text' },
 { data: 'file', name: 'file' },
+{ data: 'message_text', name: 'message_text' },
 { data: 'message', name: 'message' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],

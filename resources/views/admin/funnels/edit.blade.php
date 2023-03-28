@@ -45,6 +45,16 @@
                 <span class="help-block">{{ trans('cruds.funnel.fields.category_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="file_text">{{ trans('cruds.funnel.fields.file_text') }}</label>
+                <input class="form-control {{ $errors->has('file_text') ? 'is-invalid' : '' }}" type="text" name="file_text" id="file_text" value="{{ old('file_text', $funnel->file_text) }}">
+                @if($errors->has('file_text'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('file_text') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.funnel.fields.file_text_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <div class="form-check {{ $errors->has('file') ? 'is-invalid' : '' }}">
                     <input type="hidden" name="file" value="0">
                     <input class="form-check-input" type="checkbox" name="file" id="file" value="1" {{ $funnel->file || old('file', 0) === 1 ? 'checked' : '' }}>
@@ -56,6 +66,16 @@
                     </div>
                 @endif
                 <span class="help-block">{{ trans('cruds.funnel.fields.file_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="message_text">{{ trans('cruds.funnel.fields.message_text') }}</label>
+                <input class="form-control {{ $errors->has('message_text') ? 'is-invalid' : '' }}" type="text" name="message_text" id="message_text" value="{{ old('message_text', $funnel->message_text) }}">
+                @if($errors->has('message_text'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('message_text') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.funnel.fields.message_text_helper') }}</span>
             </div>
             <div class="form-group">
                 <div class="form-check {{ $errors->has('message') ? 'is-invalid' : '' }}">

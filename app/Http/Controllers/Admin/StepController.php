@@ -60,6 +60,9 @@ class StepController extends Controller
                 return $row->state ? $row->state->name : '';
             });
 
+            $table->editColumn('sender', function ($row) {
+                return $row->sender ? $row->sender : '';
+            });
             $table->editColumn('notify_client', function ($row) {
                 return '<input type="checkbox" disabled ' . ($row->notify_client ? 'checked' : null) . '>';
             });

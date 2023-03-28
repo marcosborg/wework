@@ -26,9 +26,10 @@ class Funnel extends Model
     protected $fillable = [
         'name',
         'description',
-        'description_2',
         'category_id',
+        'file_text',
         'file',
+        'message_text',
         'message',
         'created_at',
         'updated_at',

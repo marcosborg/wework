@@ -34,6 +34,9 @@
                         {{ trans('cruds.step.fields.state') }}
                     </th>
                     <th>
+                        {{ trans('cruds.step.fields.sender') }}
+                    </th>
+                    <th>
                         {{ trans('cruds.step.fields.notify_client') }}
                     </th>
                     <th>
@@ -102,6 +105,7 @@
 { data: 'name', name: 'name' },
 { data: 'funnel_name', name: 'funnel.name' },
 { data: 'state_name', name: 'state.name' },
+{ data: 'sender', name: 'sender' },
 { data: 'notify_client', name: 'notify_client' },
 { data: 'notify_company', name: 'notify_company' },
 { data: 'notify_user', name: 'notify_user' },
