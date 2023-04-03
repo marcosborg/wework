@@ -78,4 +78,13 @@ class ProjectController extends Controller
         return $item;
     }
 
+    public function item(Request $request)
+    {
+        $item = Item::where('id', $request->id)
+        ->with([
+            'client'
+        ])->first();
+        return $item;
+    }
+
 }

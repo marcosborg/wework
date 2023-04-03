@@ -74,6 +74,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('projects/{category_id?}', 'ProjectController@index')->name('projects.index');
     Route::get('projectsAjax/{category_id?}', 'ProjectController@ajax');
     Route::post('projectsUpdate', 'ProjectController@projectsUpdate');
+    Route::get('projects/item/{id}', 'ProjectController@item');
 
     // District
     Route::delete('districts/destroy', 'DistrictController@massDestroy')->name('districts.massDestroy');

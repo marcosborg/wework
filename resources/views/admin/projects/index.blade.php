@@ -24,22 +24,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label>Cliente</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label>Nome</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label>Entrada</label>
-                    <input type="text" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label>Informação</label>
-                    <textarea type="text" class="form-control"></textarea>
-                </div>
+                
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -49,9 +34,42 @@
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="info" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Informação</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 @section('styles')
+<style>
+    #projects .card-body {
+        padding: 10px;
+    }
 
+    #projects .card {
+        margin-bottom: 10px;
+    }
+
+    #projects .col {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    #projects.row {
+        margin-right: -5px;
+        margin-left: -5px;
+    }
+</style>
 @endsection
 @section('scripts')
 @parent
@@ -106,6 +124,13 @@
 
     allowDrop = (ev) => {
         ev.preventDefault();
+    }
+
+    openInfo = (id) => {
+        $.get('/admin/projects/item/' + id).then((resp) => {
+            console.log(resp);
+        });
+        $('#info').modal('show');
     }
 
 </script>

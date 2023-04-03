@@ -12,7 +12,7 @@
     @foreach ($category->funnels as $key => $funnel)
     <div class="tab-pane fade {{ $key == 0 ? 'show active' : '' }}" id="{{ $key }}-tab-pane" role="tabpanel"
         aria-labelledby="{{ $key }}-tab" tabindex="0">
-        <div class="row mt-4">
+        <div class="row mt-4" id="projects">
             @foreach ($funnel->steps as $step)
             <div class="col">
                 <div class="card" style="background: {{ $step->state->color }};">
@@ -37,7 +37,7 @@
                                             \Carbon\Carbon::parse($item->lastInput[0]->created_at)->diffForHumans()
                                             }}</span>
                                     </p>
-                                    <button class="btn btn-success btn-sm">Info</button>
+                                    <button class="btn btn-success btn-sm" onclick="openInfo({{ $item->id }})">Informação</button>
                                     @endif
                                 </div>
                             </div>
@@ -56,4 +56,3 @@
     Não existem funís atribuidos!
 </div>
 @endif
-<script>console.log({!! $category !!})</script>
