@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Item;
+use App\Models\Step;
+use App\Notifications\NotifyStep;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -71,19 +73,43 @@ class ProjectController extends Controller
 
     public function projectsUpdate(Request $request)
     {
-        $item = Item::find($request->item_id);
+        $item = Item::with([
+            'client'
+        ])
+            ->where('id', $request->item_id)
+            ->first();
         $item->step_id = $request->step_id;
         $item->save();
 
-        return $item;
+        $step = Step::find($item->step_id);
+
+        if ($step->notify_client) {
+
+            $template = $step->template_client;
+            $data = [
+                'client' => $item->client->first_name . ' ' . $item->client->last_name,
+                'description' => $item->description
+            ];
+
+            $template = preg_replace_callback('/\{(.+?)\}/', function ($matches) use ($data) {
+                return isset($data[$matches[1]]) ? $data[$matches[1]] : $matches[0];
+            }, $template);
+
+            $step->template_client = $template;
+
+            $item->client->notify(new NotifyStep($step));
+        }
+
+        return $step;
     }
 
     public function item(Request $request)
     {
         $item = Item::where('id', $request->id)
-        ->with([
-            'client'
-        ])->first();
+            ->with([
+                'client'
+            ])->first();
+
         return $item;
     }
 

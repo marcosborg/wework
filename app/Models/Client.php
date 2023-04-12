@@ -6,11 +6,13 @@ use \DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 
 class Client extends Model
 {
     use SoftDeletes;
     use HasFactory;
+    use Notifiable;
 
     public $table = 'clients';
 
