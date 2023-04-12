@@ -24,7 +24,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -42,9 +42,7 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Informação</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                
-            </div>
+            <div class="modal-body"></div>
         </div>
     </div>
 </div>
@@ -68,6 +66,14 @@
     #projects.row {
         margin-right: -5px;
         margin-left: -5px;
+    }
+
+    .well {
+        border: solid 1px #cccccc;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 10px;
+        background: #eeeeee;
     }
 </style>
 @endsection
@@ -129,6 +135,7 @@
     openInfo = (id) => {
         $.get('/admin/projects/item/' + id).then((resp) => {
             console.log(resp);
+            $('#info .modal-body').html(resp);
         });
         $('#info').modal('show');
     }

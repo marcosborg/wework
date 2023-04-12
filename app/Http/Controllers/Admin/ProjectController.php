@@ -110,7 +110,9 @@ class ProjectController extends Controller
                 'client'
             ])->first();
 
-        return $item;
+        return view('partials.info')->with([
+            'item' => $item,
+        ]);
     }
 
 }
